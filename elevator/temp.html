@@ -1,0 +1,203 @@
+<!--This will be where all the buttons and login resides-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="description" content="Elevator game">
+    <meta name="author" content="Kenny Lim">
+    <title>Elevators</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="http://localhost/base/js/topnav.js"></script>
+    <script src="http://localhost/base/elevator/js/events.js"></script>
+    <script src="js/main-menu.js"></script>
+    <script src="js/game.js"></script>
+</head>
+<body>
+    <topnav-component></topnav-component>
+    <div class="main">
+        <br>
+        <canvas id="canvas" width="750" height="400"
+            style="border:1px solid lightgrey">
+            Your browser does not support the HTML5 canvas tag
+        </canvas>
+        <br>
+        <button id="btn">Click</button>
+        <p id="para"></p>
+    </div>
+    
+
+    <script>
+        "use strict";
+        let canvas;
+        let context;
+        let mode;
+        let gameObjects;
+        let mousePos;
+        let mouseClick = false;
+
+        window.onload = init;
+
+        function init() {
+            canvas = document.getElementById('canvas');
+            context = canvas.getContext('2d');
+            mode = "main menu";
+            createMainMenu();
+            //createWorld();
+            createMousePos();
+
+            canvas.addEventListener('click', function(e) {
+                clickEvent(canvas, e);
+            });
+
+            canvas.addEventListener('mousedown', function(e) {
+                mouseDownEvent(canvas, e);
+            })
+
+            canvas.addEventListener('mousedown', function(e) {
+                mouseUpEvent(canvas, e);
+            })
+
+            window.requestAnimationFrame(gameLoop);
+        }
+
+        let secondsPassed = 0;
+        let oldTimeStamp = 0;
+        let timePassed = 0;
+
+        function gameLoop(timeStamp) {
+            secondsPassed = (timeStamp-oldTimeStamp) / 1000;
+            oldTimeStamp = timeStamp;
+            // Move forward in time with a max amount
+            secondsPassed = Math.min(secondsPassed, 0.1);
+
+            // Loop over all game objects
+            for (let i = 0; i < gameObjects.length; i++) {
+                gameObjects[i].update(secondsPassed);
+            }
+
+            clearCanvas();
+
+            for (let i = 0; i < gameObjects.length; i++) {
+                gameObjects[i].draw();
+            }
+
+            if (mouseClick == true) {
+                drawUp();
+            }
+            else {
+                drawDown();
+            }
+
+            window.requestAnimationFrame(gameLoop);
+        }
+
+        function clearCanvas() {
+            context.clearRect(0,0,canvas.width,canvas.height);
+        }
+
+        function update(secondsPassed) {
+            timePassed += secondsPassed;
+        }
+
+        function createWorld() {
+            gameObjects = [
+                new Elevator(context, 200, 50, 0, 100),
+                new Elevator(context, 400, 50, 0, -120),
+                new Elevator(context, 600, 80, 0, 120),
+                new Elevator(context, 0, 110, 0, -100)
+            ];
+        }
+
+        class Coordinate {
+            constructor (x, y) {
+                this.x = x;
+                this.y = y;
+            }
+        }
+
+        class GameObject {
+            constructor (context, x, y, vx, vy) {
+                this.context = context;
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.isColliding = false;
+            }
+        }
+
+        class Elevator extends GameObject {
+            constructor (context, x, y, vx, vy) {
+                super (context, x, y, vx, vy);
+
+                this.width = 150;
+                this.height = 200;
+            }
+
+            draw () {
+                this.context.fillStyle = '#ffffff';
+                this.context.fillRect(this.x, this.y, this.width, this.height);
+                this.context.fillStyle = '#fff5d9';
+                this.context.fillRect(this.x+5, this.y+5, this.width-10, this.height-10);
+            }
+
+            update (secondsPassed) {
+                this.x += this.vx * secondsPassed;
+                this.y += this.vy * secondsPassed;
+                if (this.y > 400) {
+                    this.y = -200;
+                }
+
+                if (this.y < -200) {
+                    this.y = 400;
+                }
+            }
+
+            click () {
+
+            }
+        }
+
+        function clickEvent(canvas, e) {
+            mousePos = getCursorPosition(canvas, e);
+            document.getElementById('para').innerHTML = mousePos.x.toString().concat(", ", mousePos.y.toString());
+            if (mouseClick == true) {
+                mouseClick = false;
+            }      
+            else {
+                mouseClick = true;
+            }
+        }
+
+        function mouseDownEvent(canvas, e) {
+
+        }
+
+        function mouseUpEvent(canvas, e) {
+
+        }
+
+        function getCursorPosition(canvas, event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            return new Coordinate(x, y);
+        }
+
+        function drawDown() {
+            context.fillStyle = '#ffffff';
+            context.fillRect(600, 20, 50, 50);
+        }
+
+        function drawUp() {
+            context.fillStyle = '#ffff00';
+            context.fillRect(600, 20, 50, 50);
+        }
+
+        function createMousePos () {
+            mousePos = new Coordinate(0, 0);
+        }
+    </script>
+</body>
+</html>

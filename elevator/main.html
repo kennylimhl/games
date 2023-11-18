@@ -1,0 +1,44 @@
+<!--This will be where all the buttons and login resides-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="description" content="Elevator game">
+    <meta name="author" content="Kenny Lim">
+    <title>Elevators</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="../js/topnav.js"></script>
+    
+</head>
+<body>
+    <topnav-component></topnav-component>
+    <div class="main">
+        <br>
+        <canvas id="canvas" width="750" height="400"
+            style="border:1px solid lightgrey">
+            Your browser does not support the HTML5 canvas tag
+        </canvas>
+        <br>
+        <button id="btn">Click</button>
+        <p id="para"></p>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/button.js"></script>
+    <script src="js/spriteMan.js"></script>
+    <script src="js/objects.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/game-levels.js"></script>
+    <script src="js/game-collision.js"></script>
+
+    <script>
+        "use strict";
+        
+        window.onload = init;        
+
+    </script>
+</body>
+</html>
