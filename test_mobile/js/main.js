@@ -14,6 +14,7 @@ function init() {
     context = canvas.getContext('2d');
     heightRatio = 1.5;
     if (mobileCheck) {
+        canvas.width = window.width;
         canvas.height = canvas.width * heightRatio;
     }
     else {
