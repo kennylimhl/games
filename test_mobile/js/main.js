@@ -50,10 +50,12 @@ function resizeCanvas() {
 
     heightRatio = 1.5;
     if (mobileCheck()) {
+        alert("mobile");
         canvas.width = window.innerWidth * 0.5;
         canvas.height = canvas.width * heightRatio;
     }
     else {
+        alert("non-mobile");
         canvas.height = window.innerHeight * 0.9;
         canvas.width = canvas.height / heightRatio;
     }
