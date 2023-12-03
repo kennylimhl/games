@@ -10,46 +10,64 @@ let oldTimeStamp = 0;
 let timePassed = 0;
 
 function init() {
-    canvas = document.getElementById('responsive-canvas');
+    canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
+7
+    // Event handler to resize the canvas when the document view is changed
+    window.addEventListener('resize', resizeCanvas, false);
+
+    resizeCanvas();
+    // createHomeMenu();
+
+    // canvas.addEventListener('click', function(e) {
+    //     clickEvent(canvas, e);
+    // });
+
+    // canvas.addEventListener('mousedown', function(e) {
+    //     mouseDownEvent(canvas, e);
+    // }, false);
+
+    // canvas.addEventListener('mouseup', function(e) {
+    //     mouseUpEvent(canvas, e);
+    // }, false);
+
+    // document.body.onkeydown = function(e) {
+    //     if (e.key == " " || e.code == "Space") {
+    //         spaceDownEvent();
+    //     }
+    // }
+
+    // document.body.onkeyup = function(e) {
+    //     if (e.key == " " || e.code == "Space") {
+    //         spaceUpEvent();
+    //     }
+    // }
+
+    // window.requestAnimationFrame(homeLoop);
+}
+
+function resizeCanvas() {
+
     heightRatio = 1.5;
-    if (mobileCheck) {
-        canvas.width = window.width;
+    if (mobileCheck()) {
         canvas.height = canvas.width * heightRatio;
     }
     else {
-        canvas.height = window.height;
+        canvas.height = window.innerHeight * 0.9;
         canvas.width = canvas.height / heightRatio;
     }
-    mode = "home";
 
-    createHomeMenu();
+    // Redraw everything after resizing the window
+    drawStuff(); 
+}
 
-    canvas.addEventListener('click', function(e) {
-        clickEvent(canvas, e);
-    });
-
-    canvas.addEventListener('mousedown', function(e) {
-        mouseDownEvent(canvas, e);
-    }, false);
-
-    canvas.addEventListener('mouseup', function(e) {
-        mouseUpEvent(canvas, e);
-    }, false);
-
-    document.body.onkeydown = function(e) {
-        if (e.key == " " || e.code == "Space") {
-            spaceDownEvent();
-        }
-    }
-
-    document.body.onkeyup = function(e) {
-        if (e.key == " " || e.code == "Space") {
-            spaceUpEvent();
-        }
-    }
-
-    window.requestAnimationFrame(homeLoop);
+function drawStuff() {
+    context.strokeRect(10,10, 230,100);
+    context.font = '16px serif';
+    context.fillText('The canvas is the blue', 30, 30);
+    context.fillText('background color seen here.', 30, 50);
+    context.fillText('It will resize if the window', 30, 70);
+    context.fillText('size is adjusted.', 30, 90);
 }
 
 function mobileCheck() {
