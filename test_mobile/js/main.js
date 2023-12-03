@@ -50,7 +50,7 @@ function resizeCanvas() {
 
     heightRatio = 1.5;
     if (mobileCheck()) {
-        canvas.width = window.innerWidth * 0.9;
+        canvas.width = window.innerWidth * 0.5;
         canvas.height = canvas.width * heightRatio;
     }
     else {
