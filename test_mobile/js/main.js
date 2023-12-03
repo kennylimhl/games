@@ -4,13 +4,14 @@ let mode;
 let width;
 let height;
 let heightRatio;
+let debugText;
 
 let secondsPassed = 0;
 let oldTimeStamp = 0;
 let timePassed = 0;
 
 function init() {
-    canvas = document.getElementById('responsive-canvas');
+    canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
 7
     // Event handler to resize the canvas when the document view is changed
@@ -50,12 +51,12 @@ function resizeCanvas() {
 
     heightRatio = 1.5;
     if (mobileCheck()) {
-        alert("mobile");
-        //canvas.width = window.innerWidth * 0.5;
+        debugText = "mobile";
+        canvas.width = window.innerWidth * 0.9;
         canvas.height = canvas.width * heightRatio;
     }
     else {
-        alert("non-mobile");
+        debugText = "non-mobile";
         canvas.height = window.innerHeight * 0.9;
         canvas.width = canvas.height / heightRatio;
     }
@@ -65,12 +66,15 @@ function resizeCanvas() {
 }
 
 function drawStuff() {
+    let w = canvas.width.toString();
+    let h = canvas.height.toString();
+    context.fillStyle = "white";
     context.strokeRect(10,10, 230,100);
     context.font = '16px serif';
     context.fillText('The canvas is the blue', 30, 30);
-    context.fillText('background color seen here.', 30, 50);
-    context.fillText('It will resize if the window', 30, 70);
-    context.fillText('size is adjusted.', 30, 90);
+    context.fillText(h, 30, 50);
+    context.fillText(w, 30, 70);
+    context.fillText(debugText, 30, 90);
 }
 
 function mobileCheck() {
