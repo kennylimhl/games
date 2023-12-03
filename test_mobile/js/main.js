@@ -51,14 +51,16 @@ function resizeCanvas() {
 
     heightRatio = 1.5;
     if (mobileCheck()) {
-        debugText = "mobile";
-        canvas.width = window.innerWidth * 0.9;
+        debugText = "mobile3";
+        canvas.width = window.innerWidth;
         canvas.height = canvas.width * heightRatio;
     }
     else {
-        debugText = "non-mobile";
+        debugText = "non-mobile3";
         canvas.height = window.innerHeight * 0.9;
         canvas.width = canvas.height / heightRatio;
+        canvas.style.left = (window.innerWidth / 2 - canvas.width / 2) + "px";
+        canvas.style.position = "fixed";
     }
 
     // Redraw everything after resizing the window
