@@ -10,7 +10,7 @@ let oldTimeStamp = 0;
 let timePassed = 0;
 
 function init() {
-    canvas = document.getElementById('canvas');
+    canvas = document.getElementById('responsive-canvas');
     context = canvas.getContext('2d');
 7
     // Event handler to resize the canvas when the document view is changed
@@ -51,7 +51,7 @@ function resizeCanvas() {
     heightRatio = 1.5;
     if (mobileCheck()) {
         alert("mobile");
-        canvas.width = window.innerWidth * 0.5;
+        //canvas.width = window.innerWidth * 0.5;
         canvas.height = canvas.width * heightRatio;
     }
     else {
